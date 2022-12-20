@@ -17,7 +17,7 @@ def open_and_read_file(file_path):
     return text_string
     # 'Contents of your file as one long string'
 
-open_and_read_file("green-eggs.txt")
+# open_and_read_file("green-eggs.txt")
 
 def make_chains(text_string):
     """Take input text as string; return dictionary of Markov chains.
@@ -57,17 +57,32 @@ def make_chains(text_string):
         # if chains.get((words_list[i], words_list)
     return chains
 
-print(make_chains(open_and_read_file("green-eggs.txt")))
+# print(make_chains(open_and_read_file("green-eggs.txt")))
 
 def make_text(chains):
     """Return text from chains."""
    
     words = []
 
-    # your code goes here
+    # turn chains.keys() to list
+    keys_list = list(chains.keys())
 
+    random_key = choice(keys_list)
+
+    words.append(random_key[0])
+    words.append(random_key[1])
+
+    for key, value in chains.items():
+        
+        random_value = choice(chains[random_key])
+        # break loop if keyerror
+        if random_value == 'KeyError':
+            break
+        random_key = (random_key[1], random_value)
+
+        words.append(random_value)
+        
     return ' '.join(words)
-
 
 input_path = 'green-eggs.txt'
 
@@ -75,7 +90,7 @@ input_path = 'green-eggs.txt'
 input_text = open_and_read_file(input_path)
 
 # Get a Markov chain
-# chains = make_chains(input_text)
+chains = make_chains(input_text)
 
 # Produce random text
 random_text = make_text(chains)
