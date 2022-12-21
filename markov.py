@@ -13,6 +13,7 @@ def open_and_read_file(file_path):
     # read method on file
     # open_file = open_file.read()
     text_string = text_string.replace('\n', " ")
+    text_string = text_string.replace('\r', " ")
     
     return text_string
     # 'Contents of your file as one long string'
@@ -46,12 +47,14 @@ def make_chains(text_string):
 
     chains = {}
 
-    words_list = text_string.split(' ')
+    words_list = text_string.split()
+    # print(words_list)
     for i, word in enumerate(words_list):
-        if word == words_list[-2]:
+        if i == len(words_list) - 2:
             break
         if chains.get((words_list[i], words_list[i + 1]), 0) == 0:
             chains[(words_list[i], words_list[i + 1])] = [words_list[i+2]]
+        # if the bigram does not exist in dictionary, append
         if chains.get((words_list[i], words_list[i + 1]), 0) != 0:
             chains[(words_list[i], words_list[i + 1])].append(words_list[i + 2])
         # if chains.get((words_list[i], words_list)
@@ -63,7 +66,7 @@ def make_text(chains):
     """Return text from chains."""
    
     words = []
-
+    random_value = ''
     # turn chains.keys() to list
     keys_list = list(chains.keys())
 
@@ -72,25 +75,28 @@ def make_text(chains):
     words.append(random_key[0])
     words.append(random_key[1])
 
-    for key, value in chains.items():
-        
+    # for key, value in chains.items():
+    while True:    
         random_value = choice(chains[random_key])
         # break loop if keyerror
-        if random_value == 'KeyError':
-            break
+        # if random_value == 'KeyError':
+        #     break
         random_key = (random_key[1], random_value)
-
         words.append(random_value)
+        if chains.get(random_key, 0) == 0:
+            break
         
     return ' '.join(words)
 
-input_path = 'green-eggs.txt'
+input_path = 'gettysburg.txt'
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
+# print(open_and_read_file(input_path))
 
 # Get a Markov chain
 chains = make_chains(input_text)
+print(make_chains(input_text))
 
 # Produce random text
 random_text = make_text(chains)
