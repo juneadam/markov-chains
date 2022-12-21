@@ -3,13 +3,15 @@
 from random import choice
 
 
-def open_and_read_file(file_path):
+def open_and_read_file(file_path1, file_path2):
     """Take file path as string; return text as string.
 
     Takes a string that is a file path, opens the file, and turns
     the file's contents as one string of text.
     """
-    text_string = open(file_path).read()
+    text_string1 = open(file_path1).read()
+    text_string2 = open(file_path2).read()
+    text_string = text_string1 + text_string2
     # read method on file
     # open_file = open_file.read()
     text_string = text_string.replace('\n', " ")
@@ -88,15 +90,16 @@ def make_text(chains):
         
     return ' '.join(words)
 
-input_path = 'gettysburg.txt'
+input_path1 = 'gettysburg.txt'
+input_path2 = 'green-eggs.txt'
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file(input_path)
+input_text = open_and_read_file(input_path1, input_path2)
 # print(open_and_read_file(input_path))
 
 # Get a Markov chain
 chains = make_chains(input_text)
-print(make_chains(input_text))
+# print(make_chains(input_text))
 
 # Produce random text
 random_text = make_text(chains)
